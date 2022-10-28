@@ -7,6 +7,7 @@
 #include "../Components/SpriteComponent.hpp"
 #include "../Components/AnimationComponent.hpp"
 #include "../Components/BoxColliderComponent.hpp"
+#include "../Components/KeyboardControlledComponent.hpp"
 #include "../Systems/MovementSystem.hpp"
 #include "../Systems/AnimationSystem.hpp"
 #include "../Systems/RenderSystem.hpp"
@@ -139,6 +140,8 @@ void Game::LoadLevel(int level) {
     chopper.AddComponent<RigidBodyComponent>(glm::vec2{0.0, 0.0});
     chopper.AddComponent<SpriteComponent>("chopper-image", 32, 32, 1);
     chopper.AddComponent<AnimationComponent>(2, 15, true);
+    chopper.AddComponent<KeyboardControlledComponent>(glm::vec2{0, -20}, glm::vec2{20, 0},
+                                                      glm::vec2{0, 20}, glm::vec2{-20, -0});
 
     auto radar = registry->CreateEntity();
     radar.AddComponent<TransformComponent>(glm::vec2{windowWidth - 74, 10.0}, glm::vec2{1.0, 1.0}, 0.0);

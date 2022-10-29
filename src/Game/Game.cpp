@@ -9,6 +9,7 @@
 #include "../Components/BoxColliderComponent.hpp"
 #include "../Components/KeyboardControlledComponent.hpp"
 #include "../Components/CameraFollowComponent.hpp"
+#include "../Components/ProjectileEmitterComponent.hpp"
 #include "../Systems/MovementSystem.hpp"
 #include "../Systems/AnimationSystem.hpp"
 #include "../Systems/RenderSystem.hpp"
@@ -16,6 +17,7 @@
 #include "../Systems/DamageSystem.hpp"
 #include "../Systems/KeyboardControlSystem.hpp"
 #include "../Systems/CameraMovementSystem.hpp"
+#include "../Systems/ProjectileEmitSystem.hpp"
 
 #ifdef ENABLE_COLLIDER_DEBUG
 #include "../Systems/RenderColliderSystem.hpp"
@@ -103,6 +105,7 @@ void Game::LoadLevel(int level) {
     registry->AddSystem<DamageSystem>();
     registry->AddSystem<KeyboardControlSystem>();
     registry->AddSystem<CameraMovementSystem>();
+    registry->AddSystem<ProjectileEmitSystem>();
 
 #ifdef ENABLE_COLLIDER_DEBUG
     registry->AddSystem<RenderColliderSystem>();
@@ -114,6 +117,7 @@ void Game::LoadLevel(int level) {
     assetManager->AddTexture(renderer, "chopper-image", "../assets/images/chopper-spritesheet.png");
     assetManager->AddTexture(renderer, "radar-image", "../assets/images/radar.png");
     assetManager->AddTexture(renderer, "tilemap-image", "../assets/tilemaps/jungle.png");
+    assetManager->AddTexture(renderer, "bullet-image", "../assets/images/bullet.png");
 
     // Load the tilemap
     int tileSize = 32;
@@ -171,6 +175,7 @@ void Game::LoadLevel(int level) {
     tank.AddComponent<RigidBodyComponent>(glm::vec2{-30.0, 0});
     tank.AddComponent<SpriteComponent>("tank-image", 32, 32, 4);
     tank.AddComponent<BoxColliderComponent>(32, 32);
+    tank.AddComponent<ProjectileEmitterComponent>(glm::vec2{100.0, 0.0},5000,10000);
 
 }
 
@@ -204,6 +209,7 @@ void Game::Update() {
     registry->GetSystem<MovementSystem>().Update(deltaTime);
     registry->GetSystem<AnimationSystem>().Update();
     registry->GetSystem<CollisionSystem>().Update(eventBus);
+    registry->GetSystem<ProjectileEmitSystem>().Update(registry);
     registry->GetSystem<CameraMovementSystem>().Update(camera, windowWidth, windowHeight, mapWidth, mapHeight);
 }
 

@@ -34,7 +34,7 @@ public:
             };
             SDL_RenderCopyEx(
                     renderer,
-                    assetStore->GetTexture(sprite.assetID),
+                    assetManager->GetTexture(sprite.assetID),
                     &srcRect,
                     &dstRect,
                     transform.rotation,

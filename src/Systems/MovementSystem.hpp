@@ -15,7 +15,7 @@ public:
     void Update(double deltaTime) {
         for (const auto& entity: GetSystemEntities()) {
             auto& transform = entity.GetComponent<TransformComponent>();
-            const auto rigidBody = entity.GetComponent<RigidBodyComponent>();
+            const auto& rigidBody = entity.GetComponent<RigidBodyComponent>();
 
             transform.position.x += rigidBody.velocity.x * deltaTime;
             transform.position.y += rigidBody.velocity.y * deltaTime;

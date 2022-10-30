@@ -48,6 +48,13 @@ public:
     Entity(const Entity& other) = default;
 
     [[nodiscard]] size_t GetID() const;
+
+    // Manage entity tags and groups
+    void Tag(const std::string& tag);
+    bool HasTag(const std::string& tag) const;
+    void Group(const std::string& group);
+    bool BelongsToGroup(const std::string& group) const;
+
     void Kill();
 
     class Registry* registry{};
@@ -197,16 +204,39 @@ public:
         Logger::Log("Registry dtor called");
     }
 
+    // Entity Management
     Entity CreateEntity();
 
     void KillEntity(Entity entity);
 
+    // System Management
     void AddEntityToSystems(Entity entity);
+
     void RemoveEntityFromSystems(Entity entity);
 
     void Update();
 
-    /** Component Management */
+    // Tag Management
+    void TagEntity(Entity entity, const std::string& tag);
+
+    bool EntityHasTag(Entity entity, const std::string& tag);
+
+    Entity GetEntitybyTag(const std::string& tag);
+
+    void RemoveEntityTag(Entity entity);
+
+    // Group Management
+    void GroupEntity(Entity entity, const std::string& group);
+
+    [[nodiscard]] bool EntityBelongsToGroup(Entity entity, const std::string& group) const;
+
+    [[nodiscard]] std::vector<Entity> GetEntitiesByGroup(const std::string& group) const;
+
+    void RemoveEntityGroup(Entity entity);
+
+    /********************************************
+     *          Component Management            *
+     ********************************************/
 
     /**
      * @brief Add a new component
@@ -240,7 +270,10 @@ public:
     template<typename T>
     T& GetComponent(Entity entity) const;
 
-    /** System Management */
+    /****************************************
+     *          System Management           *
+     ****************************************/
+
     /**
      * @brief
      * @tparam T
@@ -298,11 +331,22 @@ private:
      */
     std::set<Entity> entitiesToBeAdded;
     std::set<Entity> entitiesToBeKilled;
-
+    /**
+     * @brief Entity Tags.
+     * One tag name per entity
+     */
+    std::unordered_map<std::string, Entity> entityPerTag;
+    std::unordered_map<size_t, std::string> tagPerEntity;
+    /**
+     * @brief Entity Groups
+     * A set of entities per group name
+     */
+    std::unordered_map<std::string, std::set<Entity>> entitiesPerGroup;
+    std::unordered_map<size_t, std::string> groupPerEntity;
     /**
      * @brief List of free IDs
      */
-     std::deque<size_t> freeIDs;
+    std::deque<size_t> freeIDs;
 };
 
 template<typename T, typename... Args>
@@ -367,7 +411,7 @@ T& Registry::GetComponent(Entity entity) const {
 
     return std::static_pointer_cast<Pool<T>>(componentPools[componentID])->Get(entityID);
 }
-//////////////////////////////////////////////////////////////////
+
 template<typename T, typename... Args>
 void Registry::AddSystem(Args&& ... args) {
     systems.insert({std::type_index{typeid(T)}, std::make_shared<T>(std::forward<Args>(args)...)});
@@ -408,6 +452,7 @@ template<typename T>
 T& Entity::GetComponent() const {
     return registry->GetComponent<T>(*this);
 }
+
 
 
 

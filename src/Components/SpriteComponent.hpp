@@ -18,11 +18,11 @@ struct SpriteComponent {
                              bool isFixed = false,
                              int srcRectX = 0,
                              int srcRectY = 0) {
+        this->assetID = std::move(assetID);
         this->width = width;
         this->height = height;
         this->zIndex = zIndex;
         this->isFixed = isFixed;
-        this->assetID = std::move(assetID);
         this->srcRect = {srcRectX, srcRectY, width, height};
     }
 };

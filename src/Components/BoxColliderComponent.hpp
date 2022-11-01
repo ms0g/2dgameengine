@@ -5,9 +5,9 @@
 struct BoxColliderComponent {
     int width;
     int height;
-    glm::vec2 offset;
+    glm::vec2 offset{};
 
-    explicit BoxColliderComponent(int width = 0,int height = 0,glm::vec2 offset = {0,0}) {
+    explicit BoxColliderComponent(int width = 0, int height = 0, glm::vec2 offset = glm::vec2{0}) {
         this->width = width;
         this->height = height;
         this->offset = offset;

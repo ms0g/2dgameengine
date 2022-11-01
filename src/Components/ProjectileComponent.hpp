@@ -6,7 +6,7 @@ struct ProjectileComponent {
     int duration;
     int hitPercentDamage;
     bool isFriendly;
-    int startTime;
+    uint32_t startTime;
 
     explicit ProjectileComponent(
             int duration = 10000,

@@ -36,10 +36,10 @@ private:
     std::unique_ptr<AssetManager> assetManager;
     std::unique_ptr<EventBus> eventBus;
     bool isRunning;
-    size_t windowWidth;
-    size_t windowHeight;
-    size_t mapWidth;
-    size_t mapHeight;
+    int windowWidth;
+    int windowHeight;
+    int mapWidth;
+    int mapHeight;
 
     uint32_t millisecsPreviousFrame{0};
     static constexpr int FPS = 60;

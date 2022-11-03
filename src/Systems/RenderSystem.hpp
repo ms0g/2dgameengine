@@ -2,8 +2,10 @@
 
 #include <SDL2/SDL.h>
 #include "../ECS/ECS.h"
+#include "../AssetManager/AssetManager.h"
 #include "../Components/TransformComponent.hpp"
 #include "../Components/SpriteComponent.hpp"
+
 
 
 class RenderSystem : public System {

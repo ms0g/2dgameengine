@@ -2,6 +2,9 @@
 #include <SDL2/SDL.h>
 #include <fstream>
 #include "glm/glm.hpp"
+#include "imgui/imgui.h"
+#include "imgui/imgui_impl_sdl.h"
+#include "imgui/imgui_impl_sdlrenderer.h"
 #include "../Components/TransformComponent.hpp"
 #include "../Components/RigidBodyComponent.hpp"
 #include "../Components/SpriteComponent.hpp"
@@ -24,9 +27,10 @@
 #include "../Systems/RenderTextSystem.hpp"
 #include "../Systems/RenderHealthBarSystem.hpp"
 
+#ifdef ENABLE_DEBUG
 
-#ifdef ENABLE_COLLIDER_DEBUG
 #include "../Systems/RenderColliderSystem.hpp"
+
 #endif
 
 Game::Game() :
@@ -78,8 +82,17 @@ void Game::Initialize() {
         Logger::Error("Error creating SDL Renderer");
         return;
     }
-    SDL_SetWindowFullscreen(window, SDL_WINDOW_RESIZABLE);
+    SDL_SetWindowFullscreen(window, SDL_WINDOW_FULLSCREEN);
     isRunning = true;
+#ifdef ENABLE_DEBUG
+    // Initialize the ImGui context
+    IMGUI_CHECKVERSION();
+    ImGui::CreateContext();
+
+    // Setup Platform/Renderer backends
+    ImGui_ImplSDL2_InitForSDLRenderer(window, renderer);
+    ImGui_ImplSDLRenderer_Init(renderer);
+#endif
 }
 
 void Game::Run() {
@@ -94,6 +107,16 @@ void Game::Run() {
 void Game::ProcessInput() {
     SDL_Event event;
     while (SDL_PollEvent(&event)) {
+#ifdef ENABLE_DEBUG
+        ImGui_ImplSDL2_ProcessEvent(&event);
+        ImGuiIO& io = ImGui::GetIO();
+
+        int mouseX, mouseY;
+        const int buttons = SDL_GetMouseState(&mouseX, &mouseY);
+        io.MousePos = ImVec2(mouseX, mouseY);
+        io.MouseDown[0] = buttons & SDL_BUTTON(SDL_BUTTON_LEFT);
+        io.MouseDown[1] = buttons & SDL_BUTTON(SDL_BUTTON_RIGHT);
+#endif
         switch (event.type) {
             case SDL_QUIT:
                 isRunning = false;
@@ -122,7 +145,7 @@ void Game::LoadLevel(int level) {
     registry->AddSystem<RenderTextSystem>();
     registry->AddSystem<RenderHealthBarSystem>();
 
-#ifdef ENABLE_COLLIDER_DEBUG
+#ifdef ENABLE_DEBUG
     registry->AddSystem<RenderColliderSystem>();
 #endif
 
@@ -258,15 +281,32 @@ void Game::Render() {
     registry->GetSystem<RenderTextSystem>().Update(renderer, camera, assetManager);
     registry->GetSystem<RenderHealthBarSystem>().Update(renderer, camera, assetManager);
 
-#ifdef ENABLE_COLLIDER_DEBUG
+#ifdef ENABLE_DEBUG
     registry->GetSystem<RenderColliderSystem>().Update(renderer, camera);
-#endif
+    // Start the Dear ImGui frame
+    ImGui_ImplSDLRenderer_NewFrame();
+    ImGui_ImplSDL2_NewFrame();
+    ImGui::NewFrame();
 
+    // Show demo window
+    ImGui::ShowDemoWindow();
+
+    //Render ImGui
+    ImGui::Render();
+    ImGui_ImplSDLRenderer_RenderDrawData(ImGui::GetDrawData());
+#endif
     SDL_RenderPresent(renderer);
 
 }
 
 void Game::Destroy() {
+#ifdef ENABLE_DEBUG
+    // Clean up ImGui
+    ImGui_ImplSDLRenderer_Shutdown();
+    ImGui_ImplSDL2_Shutdown();
+    ImGui::DestroyContext();
+#endif
+    // Clean up SDL
     SDL_DestroyWindow(window);
     SDL_DestroyRenderer(renderer);
     SDL_Quit();

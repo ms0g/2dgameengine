@@ -5,10 +5,10 @@ set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/")
 
 set(CMAKE_CXX_STANDARD 17)
 
-option(COLLIDER_DEBUG "Collision debug option" OFF)
+option(DEBUG "Debug mode option" ON)
 
-if(COLLIDER_DEBUG)
-    add_definitions(-DENABLE_COLLIDER_DEBUG)
+if(DEBUG)
+    add_definitions(-DENABLE_DEBUG)
 endif()
 
 find_package(SDL2 REQUIRED)
@@ -31,8 +31,9 @@ file(GLOB_RECURSE GAME "src/Game/*")
 file(GLOB_RECURSE LOGGER "src/Logger/*")
 file(GLOB_RECURSE ECS "src/ECS/*")
 file(GLOB_RECURSE ASSET_STORE "src/AssetManager/*")
+file(GLOB_RECURSE IMGUI "libs/imgui/*")
 
-set(SOURCES ${MAIN} ${GAME} ${LOGGER} ${ECS} ${ASSET_STORE})
+set(SOURCES ${MAIN} ${GAME} ${LOGGER} ${ECS} ${ASSET_STORE} ${IMGUI})
 
 add_executable(${PROJECT_NAME} ${SOURCES})
 target_include_directories(${PROJECT_NAME} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/libs)

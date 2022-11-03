@@ -11,6 +11,7 @@
 #include "../Components/CameraFollowComponent.hpp"
 #include "../Components/ProjectileEmitterComponent.hpp"
 #include "../Components/HealthComponent.hpp"
+#include "../Components/TextLabelComponent.hpp"
 #include "../Systems/MovementSystem.hpp"
 #include "../Systems/AnimationSystem.hpp"
 #include "../Systems/RenderSystem.hpp"
@@ -20,6 +21,7 @@
 #include "../Systems/CameraMovementSystem.hpp"
 #include "../Systems/ProjectileEmitSystem.hpp"
 #include "../Systems/ProjectileLifeCycleSystem.hpp"
+#include "../Systems/RenderTextSystem.hpp"
 
 
 #ifdef ENABLE_COLLIDER_DEBUG
@@ -43,6 +45,12 @@ void Game::Initialize() {
         Logger::Error("Error initializing SDL");
         return;
     }
+
+    if (TTF_Init() != 0) {
+        Logger::Error("Error initializing SDL TTF");
+        return;
+    }
+
     windowWidth = 800;
     windowHeight = 600;
     window = SDL_CreateWindow(
@@ -110,6 +118,7 @@ void Game::LoadLevel(int level) {
     registry->AddSystem<CameraMovementSystem>();
     registry->AddSystem<ProjectileEmitSystem>();
     registry->AddSystem<ProjectileLifeCycleSystem>();
+    registry->AddSystem<RenderTextSystem>();
 
 #ifdef ENABLE_COLLIDER_DEBUG
     registry->AddSystem<RenderColliderSystem>();
@@ -122,6 +131,7 @@ void Game::LoadLevel(int level) {
     assetManager->AddTexture(renderer, "radar-image", "../assets/images/radar.png");
     assetManager->AddTexture(renderer, "tilemap-image", "../assets/tilemaps/jungle.png");
     assetManager->AddTexture(renderer, "bullet-image", "../assets/images/bullet.png");
+    assetManager->AddFont("charriot-font", "../assets/fonts/charriot.ttf", 14);
 
     // Load the tilemap
     int tileSize = 32;
@@ -190,6 +200,11 @@ void Game::LoadLevel(int level) {
     tank.AddComponent<HealthComponent>(100);
     tank.AddComponent<ProjectileEmitterComponent>(glm::vec2{100.0, 0.0}, 5000, 3000);
 
+    auto label = registry->CreateEntity();
+    SDL_Color white = {0, 255, 0};
+    label.AddComponent<TextLabelComponent>(glm::vec2{windowWidth / 2 - 40, 10},
+                                           "Chopper 1.0", "charriot-font", white, true);
+
 }
 
 
@@ -234,6 +249,7 @@ void Game::Render() {
 
     // Invoke all systems to render
     registry->GetSystem<RenderSystem>().Update(renderer, camera, assetManager);
+    registry->GetSystem<RenderTextSystem>().Update(renderer, camera, assetManager);
 #ifdef ENABLE_COLLIDER_DEBUG
     registry->GetSystem<RenderColliderSystem>().Update(renderer, camera);
 #endif

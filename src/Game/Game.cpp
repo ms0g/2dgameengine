@@ -22,6 +22,7 @@
 #include "../Systems/ProjectileEmitSystem.hpp"
 #include "../Systems/ProjectileLifeCycleSystem.hpp"
 #include "../Systems/RenderTextSystem.hpp"
+#include "../Systems/RenderHealthBarSystem.hpp"
 
 
 #ifdef ENABLE_COLLIDER_DEBUG
@@ -119,6 +120,7 @@ void Game::LoadLevel(int level) {
     registry->AddSystem<ProjectileEmitSystem>();
     registry->AddSystem<ProjectileLifeCycleSystem>();
     registry->AddSystem<RenderTextSystem>();
+    registry->AddSystem<RenderHealthBarSystem>();
 
 #ifdef ENABLE_COLLIDER_DEBUG
     registry->AddSystem<RenderColliderSystem>();
@@ -131,7 +133,11 @@ void Game::LoadLevel(int level) {
     assetManager->AddTexture(renderer, "radar-image", "../assets/images/radar.png");
     assetManager->AddTexture(renderer, "tilemap-image", "../assets/tilemaps/jungle.png");
     assetManager->AddTexture(renderer, "bullet-image", "../assets/images/bullet.png");
-    assetManager->AddFont("charriot-font", "../assets/fonts/charriot.ttf", 14);
+    assetManager->AddFont("charriot-font", "../assets/fonts/charriot.ttf", 20);
+    assetManager->AddFont("pico8-font-5", "../assets/fonts/pico8.ttf", 5);
+    assetManager->AddFont("pico8-font-10", "../assets/fonts/pico8.ttf", 10);
+
+
 
     // Load the tilemap
     int tileSize = 32;
@@ -250,6 +256,8 @@ void Game::Render() {
     // Invoke all systems to render
     registry->GetSystem<RenderSystem>().Update(renderer, camera, assetManager);
     registry->GetSystem<RenderTextSystem>().Update(renderer, camera, assetManager);
+    registry->GetSystem<RenderHealthBarSystem>().Update(renderer, camera, assetManager);
+
 #ifdef ENABLE_COLLIDER_DEBUG
     registry->GetSystem<RenderColliderSystem>().Update(renderer, camera);
 #endif

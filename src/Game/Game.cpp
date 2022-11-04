@@ -30,6 +30,7 @@
 #ifdef ENABLE_DEBUG
 
 #include "../Systems/RenderColliderSystem.hpp"
+#include "../Systems/RenderGUISystem.hpp"
 
 #endif
 
@@ -82,7 +83,7 @@ void Game::Initialize() {
         Logger::Error("Error creating SDL Renderer");
         return;
     }
-    SDL_SetWindowFullscreen(window, SDL_WINDOW_FULLSCREEN);
+    SDL_SetWindowFullscreen(window, SDL_WINDOW_RESIZABLE);
     isRunning = true;
 #ifdef ENABLE_DEBUG
     // Initialize the ImGui context
@@ -147,6 +148,7 @@ void Game::LoadLevel(int level) {
 
 #ifdef ENABLE_DEBUG
     registry->AddSystem<RenderColliderSystem>();
+    registry->AddSystem<RenderGUISystem>();
 #endif
 
     // Adding assets to Asset Store
@@ -283,17 +285,7 @@ void Game::Render() {
 
 #ifdef ENABLE_DEBUG
     registry->GetSystem<RenderColliderSystem>().Update(renderer, camera);
-    // Start the Dear ImGui frame
-    ImGui_ImplSDLRenderer_NewFrame();
-    ImGui_ImplSDL2_NewFrame();
-    ImGui::NewFrame();
-
-    // Show demo window
-    ImGui::ShowDemoWindow();
-
-    //Render ImGui
-    ImGui::Render();
-    ImGui_ImplSDLRenderer_RenderDrawData(ImGui::GetDrawData());
+    registry->GetSystem<RenderGUISystem>().Update(registry, camera);
 #endif
     SDL_RenderPresent(renderer);
 

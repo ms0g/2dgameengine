@@ -31,15 +31,15 @@ private:
 
     SDL_Window* window{};
     SDL_Renderer* renderer{};
-    SDL_Rect camera;
+    SDL_Rect camera{};
     std::unique_ptr<Registry> registry;
     std::unique_ptr<AssetManager> assetManager;
     std::unique_ptr<EventBus> eventBus;
     bool isRunning;
-    int windowWidth;
-    int windowHeight;
-    int mapWidth;
-    int mapHeight;
+    int windowWidth{};
+    int windowHeight{};
+    int mapWidth{};
+    int mapHeight{};
 
     uint32_t millisecsPreviousFrame{0};
     static constexpr int FPS = 60;

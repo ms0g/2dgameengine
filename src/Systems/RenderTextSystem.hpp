@@ -12,7 +12,7 @@ public:
         RequireComponent<TextLabelComponent>();
     }
 
-    void Update(SDL_Renderer* renderer, const SDL_Rect& camera, std::unique_ptr<AssetManager>& assetManager) {
+    void Update(SDL_Renderer* renderer, const SDL_Rect& camera, const std::unique_ptr<AssetManager>& assetManager) {
         for (const auto& entity: GetSystemEntities()) {
             const auto& textlabel = entity.GetComponent<TextLabelComponent>();
 

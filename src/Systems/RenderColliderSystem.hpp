@@ -12,7 +12,7 @@ public:
         RequireComponent<BoxColliderComponent>();
     }
 
-    void Update(SDL_Renderer* renderer, SDL_Rect& camera) {
+    void Update(SDL_Renderer* renderer, const SDL_Rect& camera) {
         for (const auto& entity: GetSystemEntities()) {
             const auto& transform = entity.GetComponent<TransformComponent>();
             const auto& collider = entity.GetComponent<BoxColliderComponent>();

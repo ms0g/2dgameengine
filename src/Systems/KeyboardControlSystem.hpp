@@ -15,7 +15,7 @@ public:
         RequireComponent<RigidBodyComponent>();
     }
 
-    void SubscribeToEvents(std::unique_ptr<EventBus>& eventBus) {
+    void SubscribeToEvents(const std::unique_ptr<EventBus>& eventBus) {
         eventBus->SubscribeToEvent<KeyboardControlSystem, KeyPressedEvent>(this, &KeyboardControlSystem::onKeyPressed);
     }
 

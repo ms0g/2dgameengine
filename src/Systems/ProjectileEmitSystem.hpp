@@ -19,7 +19,7 @@ public:
         RequireComponent<TransformComponent>();
     }
 
-    void SubscribeToEvents(std::unique_ptr<EventBus>& eventBus) {
+    void SubscribeToEvents(const std::unique_ptr<EventBus>& eventBus) {
         eventBus->SubscribeToEvent<ProjectileEmitSystem, KeyPressedEvent>(this, &ProjectileEmitSystem::onKeyPressed);
     }
 
@@ -66,7 +66,7 @@ public:
         }
     }
 
-    void Update(std::unique_ptr<Registry>& registry) {
+    void Update(const std::unique_ptr<Registry>& registry) {
         for (const auto& entity: GetSystemEntities()) {
             const auto& transform = entity.GetComponent<TransformComponent>();
             auto& projectileEmitter = entity.GetComponent<ProjectileEmitterComponent>();

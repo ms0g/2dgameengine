@@ -13,7 +13,7 @@ public:
         RequireComponent<TransformComponent>();
     }
 
-    void Update(std::unique_ptr<EventBus>& eventBus) {
+    void Update(const std::unique_ptr<EventBus>& eventBus) {
         auto entities = GetSystemEntities();
         for (auto aIt = entities.begin(); aIt != entities.end(); aIt++) {
             auto aCollider = aIt->GetComponent<BoxColliderComponent>();

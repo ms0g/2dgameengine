@@ -15,7 +15,7 @@ public:
         RequireComponent<SpriteComponent>();
     }
 
-    void Update(SDL_Renderer* renderer, SDL_Rect& camera, std::unique_ptr<AssetManager>& assetManager) {
+    void Update(SDL_Renderer* renderer, const SDL_Rect& camera, const std::unique_ptr<AssetManager>& assetManager) {
         // sort
         auto renderableEntities = GetSystemEntities();
         std::sort(renderableEntities.begin(), renderableEntities.end(), [](const Entity& e1, const Entity& e2) {

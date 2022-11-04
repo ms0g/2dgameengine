@@ -1,6 +1,6 @@
 #include "ECS.h"
 
-int BaseComponent::nextID{0};
+int IComponent::nextID{0};
 
 size_t Entity::GetID() const {
     return m_id;

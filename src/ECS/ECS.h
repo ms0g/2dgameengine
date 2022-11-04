@@ -21,13 +21,13 @@ using Signature = std::bitset<MAX_COMPONENTS>;
  * Component
  * @brief
  */
-class BaseComponent {
+class IComponent {
 protected:
     static int nextID;
 };
 
 template<typename T>
-class Component : public BaseComponent {
+class Component : public IComponent {
 public:
     static int GetID() {
         static auto id = nextID++;
@@ -141,14 +141,14 @@ void System::RequireComponent() {
  * @brief A pool is just a vector of objects of type T
  */
 
-class BasePool {
+class IPool {
 public:
-    virtual ~BasePool() = default;
+    virtual ~IPool() = default;
     virtual void RemoveEntityFromPool(size_t entitID) = 0;
 };
 
 template<typename T>
-class Pool : public BasePool {
+class Pool : public IPool {
 public:
     explicit Pool(size_t capacity = 100) {
         size = 0;
@@ -364,7 +364,7 @@ private:
      * Vector index = Component type id
      * Pool index = entity id
      */
-    std::vector<std::shared_ptr<BasePool>> componentPools;
+    std::vector<std::shared_ptr<IPool>> componentPools;
     /**
      * @brief Vector of component signatures.
      * The signature lets us know which components are turned ON for a given entity

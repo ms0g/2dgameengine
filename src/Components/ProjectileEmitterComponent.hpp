@@ -16,13 +16,11 @@ struct ProjectileEmitterComponent {
             int projectileDuration = 10000,
             int hitPercentDamage = 10,
             bool isFriendly = false,
-            int lastEmissionTime = 0) {
-        this->projectileVelocity = projectileVelocity;
-        this->repeatFrequency = repeatFrequency;
-        this->projectileDuration = projectileDuration;
-        this->hitPercentDamage = hitPercentDamage;
-        this->isFriendly = isFriendly;
-        this->lastEmissionTime = lastEmissionTime;
-
-    }
+            int lastEmissionTime = 0) :
+            projectileVelocity(projectileVelocity),
+            repeatFrequency(repeatFrequency),
+            projectileDuration(projectileDuration),
+            hitPercentDamage(hitPercentDamage),
+            isFriendly(isFriendly),
+            lastEmissionTime(lastEmissionTime) {}
 };

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+#include <utility>
 #include <SDL2/SDL.h>
 
 struct SpriteComponent {
@@ -17,12 +18,11 @@ struct SpriteComponent {
                              int zIndex = 0,
                              bool isFixed = false,
                              int srcRectX = 0,
-                             int srcRectY = 0) {
-        this->assetID = std::move(assetID);
-        this->width = width;
-        this->height = height;
-        this->zIndex = zIndex;
-        this->isFixed = isFixed;
-        this->srcRect = {srcRectX, srcRectY, width, height};
-    }
+                             int srcRectY = 0) :
+            assetID(std::move(assetID)),
+            width(width),
+            height(height),
+            zIndex(zIndex),
+            isFixed(isFixed),
+            srcRect({srcRectX, srcRectY, width, height}) {}
 };

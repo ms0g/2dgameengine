@@ -15,11 +15,11 @@ public:
 
     void AddTexture(SDL_Renderer* renderer, const std::string& assetID, const std::string& filePath);
 
-    [[nodiscard]] SDL_Texture* GetTexture(const std::string& assetID) const;
-
     void AddFont(const std::string& assetID, const std::string& filePath, int fontSize);
 
-    [[nodiscard]] TTF_Font * GetFont(const std::string& assetID) const;
+    [[nodiscard]] SDL_Texture* GetTexture(const std::string& assetID) const;
+
+    [[nodiscard]] TTF_Font* GetFont(const std::string& assetID) const;
 
 private:
     std::map<std::string, SDL_Texture*> textures;

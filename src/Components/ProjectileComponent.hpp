@@ -8,13 +8,9 @@ struct ProjectileComponent {
     bool isFriendly;
     uint32_t startTime;
 
-    explicit ProjectileComponent(
-            int duration = 10000,
-            int hitPercentDamage = 0,
-            bool isFriendly = false) {
-        this->duration = duration;
-        this->hitPercentDamage = hitPercentDamage;
-        this->isFriendly = isFriendly;
-        this->startTime = SDL_GetTicks();
-    }
+    explicit ProjectileComponent(int duration = 10000, int hitPercentDamage = 0, bool isFriendly = false) :
+            duration(duration),
+            hitPercentDamage(hitPercentDamage),
+            isFriendly(isFriendly),
+            startTime(SDL_GetTicks()) {}
 };

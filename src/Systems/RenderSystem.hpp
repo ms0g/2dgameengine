@@ -41,7 +41,7 @@ public:
                     &dstRect,
                     transform.rotation,
                     nullptr,
-                    SDL_FLIP_NONE);
+                    sprite.flip);
         }
     }
 };

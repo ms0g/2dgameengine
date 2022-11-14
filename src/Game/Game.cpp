@@ -83,7 +83,7 @@ void Game::Initialize() {
         Logger::Error("Error creating SDL Renderer");
         return;
     }
-    SDL_SetWindowFullscreen(window, SDL_WINDOW_RESIZABLE);
+    SDL_SetWindowFullscreen(window, SDL_WINDOW_FULLSCREEN);
     isRunning = true;
 #ifdef ENABLE_DEBUG
     // Initialize the ImGui context
@@ -266,7 +266,7 @@ void Game::Update() {
     registry->Update();
 
     // Invoke all systems to update
-    registry->GetSystem<MovementSystem>().Update(deltaTime);
+    registry->GetSystem<MovementSystem>().Update(deltaTime, mapWidth, mapHeight);
     registry->GetSystem<AnimationSystem>().Update();
     registry->GetSystem<CollisionSystem>().Update(eventBus);
     registry->GetSystem<ProjectileEmitSystem>().Update(registry);

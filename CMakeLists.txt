@@ -5,7 +5,7 @@ set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/")
 
 set(CMAKE_CXX_STANDARD 17)
 
-option(DEBUG "Debug mode option" ON)
+option(DEBUG "Debug mode option" OFF)
 
 if(DEBUG)
     add_definitions(-DENABLE_DEBUG)

@@ -7,7 +7,6 @@
 #include "../Components/SpriteComponent.hpp"
 
 
-
 class RenderSystem : public System {
 public:
     RenderSystem() {
@@ -18,6 +17,7 @@ public:
     void Update(SDL_Renderer* renderer, const SDL_Rect& camera, const std::unique_ptr<AssetManager>& assetManager) {
         // sort
         auto renderableEntities = GetSystemEntities();
+
         std::sort(renderableEntities.begin(), renderableEntities.end(), [](const Entity& e1, const Entity& e2) {
             return e1.GetComponent<SpriteComponent>().zIndex < e2.GetComponent<SpriteComponent>().zIndex;
         });
@@ -25,6 +25,13 @@ public:
         for (const auto& entity: renderableEntities) {
             const auto& transform = entity.GetComponent<TransformComponent>();
             const auto& sprite = entity.GetComponent<SpriteComponent>();
+
+            if ((transform.position.x + (sprite.width * transform.scale.x) < camera.x ||
+                transform.position.x > camera.x + camera.w ||
+                transform.position.y + (sprite.height * transform.scale.y) < camera.y ||
+                transform.position.y > camera.y + camera.h) && !sprite.isFixed) {
+                continue;
+            }
 
             SDL_Rect srcRect = sprite.srcRect;
 

@@ -65,13 +65,18 @@ public:
                 int paddingRight = 50;
                 int paddingBottom = 50;
                 transform.position.x = transform.position.x < paddingLeft ? paddingLeft : transform.position.x;
-                transform.position.x = transform.position.x > mapWidth - paddingRight ? mapWidth - paddingRight : transform.position.x;
+                transform.position.x =
+                        transform.position.x > mapWidth - paddingRight ? mapWidth - paddingRight : transform.position.x;
                 transform.position.y = transform.position.y < paddingTop ? paddingTop : transform.position.y;
-                transform.position.y = transform.position.y > mapHeight - paddingBottom ? mapHeight - paddingBottom : transform.position.y;
+                transform.position.y = transform.position.y > mapHeight - paddingBottom ? mapHeight - paddingBottom
+                                                                                        : transform.position.y;
             }
 
-            if ((transform.position.x < 0 || transform.position.x > mapWidth ||
-                 transform.position.y < 0 || transform.position.y > mapHeight) && !entity.HasTag("player")) {
+            int margin = 100;
+            if ((transform.position.x < -margin ||
+                 transform.position.x > mapWidth + margin ||
+                 transform.position.y < -margin || transform.position.y > mapHeight + margin) &&
+                !entity.HasTag("player")) {
                 entity.Kill();
             }
         }

@@ -13,7 +13,7 @@ public:
         RequireComponent<CameraFollowComponent>();
     }
 
-    void Update(SDL_Rect& camera, size_t windowWidth, size_t windowHeight, size_t mapWidth, size_t mapHeight) {
+    void Update(SDL_Rect& camera, int windowWidth, int windowHeight, int mapWidth, int mapHeight) {
         for (const auto& entity: GetSystemEntities()) {
             const auto& transform = entity.GetComponent<TransformComponent>();
 

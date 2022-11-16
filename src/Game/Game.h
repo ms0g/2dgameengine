@@ -2,6 +2,7 @@
 
 #include <cstdlib>
 #include <memory>
+#include "sol/sol.hpp"
 #include "../ECS/ECS.h"
 #include "../AssetManager/AssetManager.h"
 #include "../EventBus/EventBus.hpp"
@@ -27,17 +28,17 @@ private:
 
     void Setup();
 
-    void LoadLevel(int level);
-
     SDL_Window* window{};
     SDL_Renderer* renderer{};
     SDL_Rect camera{};
+    sol::state lua;
+
     std::unique_ptr<Registry> registry;
     std::unique_ptr<AssetManager> assetManager;
     std::unique_ptr<EventBus> eventBus;
     bool isRunning;
-    int windowWidth{};
-    int windowHeight{};
+    int windowWidth{800};
+    int windowHeight{600};
     int mapWidth{};
     int mapHeight{};
 

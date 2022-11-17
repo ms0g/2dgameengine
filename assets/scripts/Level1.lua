@@ -2790,11 +2790,8 @@ Level = {
                     hit_percentage_damage = 10,
                     friendly = false
                 },
-                [[--
                 on_update_script = {
                     [0] = function(entity, delta_time, ellapsed_time)
-                        print("Executing the SU-27 fighter jet Lua script!")
-
                         -- this function makes the fighter jet move up and down the map shooting projectiles
                         local current_position_x, current_position_y = get_position(entity)
                         local current_velocity_x, current_velocity_y = get_velocity(entity)
@@ -2817,7 +2814,7 @@ Level = {
 
                     end
                 }
-                   --}]]
+
             }
         },
         {

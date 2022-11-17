@@ -26,14 +26,14 @@ include_directories(${SDL2_MIXER_INCLUDE_DIRS})
 find_package(Lua REQUIRED)
 include_directories(${LUA_INCLUDE_DIR})
 
-file(GLOB_RECURSE MAIN "src/Main.cpp")
+set(MAIN "src/Main.cpp")
 file(GLOB_RECURSE GAME "src/Game/*")
 file(GLOB_RECURSE LOGGER "src/Logger/*")
 file(GLOB_RECURSE ECS "src/ECS/*")
-file(GLOB_RECURSE ASSET_STORE "src/AssetManager/*")
+file(GLOB_RECURSE ASSET_MNGR "src/AssetManager/*")
 file(GLOB_RECURSE IMGUI "libs/imgui/*")
 
-set(SOURCES ${MAIN} ${GAME} ${LOGGER} ${ECS} ${ASSET_STORE} ${IMGUI})
+set(SOURCES ${MAIN} ${GAME} ${LOGGER} ${ECS} ${ASSET_MNGR} ${IMGUI})
 
 add_executable(${PROJECT_NAME} ${SOURCES})
 target_include_directories(${PROJECT_NAME} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/libs)

@@ -137,6 +137,9 @@ void Game::Setup() {
     registry->AddSystem<RenderColliderSystem>();
     registry->AddSystem<RenderGUISystem>();
 #endif
+    // Create the bindings between C++ and Lua
+    registry->GetSystem<ScriptSystem>().CreateLuaBindings(lua);
+
     LevelLoader loader;
     lua.open_libraries(sol::lib::base, sol::lib::os, sol::lib::math);
     loader.LoadLevel(lua, windowWidth, mapWidth, mapHeight, renderer, assetManager, registry);
@@ -172,6 +175,7 @@ void Game::Update() {
     registry->GetSystem<ProjectileEmitSystem>().Update(registry);
     registry->GetSystem<ProjectileLifeCycleSystem>().Update();
     registry->GetSystem<CameraMovementSystem>().Update(camera, windowWidth, windowHeight, mapWidth, mapHeight);
+    registry->GetSystem<ScriptSystem>().Update(deltaTime, SDL_GetTicks());
 }
 
 void Game::Render() {

@@ -14,6 +14,7 @@
 #include "../Components/ProjectileEmitterComponent.hpp"
 #include "../Components/HealthComponent.hpp"
 #include "../Components/TextLabelComponent.hpp"
+#include "../Components/ScriptComponent.hpp"
 
 
 LevelLoader::LevelLoader() {
@@ -247,6 +248,14 @@ void LevelLoader::LoadLevel(sol::state& lua,
                                 entity["components"]["keyboard_controller"]["left_velocity"]["y"]
                         )
                 );
+            }
+
+            // Script
+            sol::optional<sol::table> lua_script = entity["components"]["on_update_script"];
+            if (lua_script != sol::nullopt) {
+                sol::function func = entity["components"]["on_update_script"][0];
+                newEntity.AddComponent<ScriptComponent>(func);
+
             }
         }
     }

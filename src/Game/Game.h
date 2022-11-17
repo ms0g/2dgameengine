@@ -37,8 +37,8 @@ private:
     std::unique_ptr<AssetManager> assetManager;
     std::unique_ptr<EventBus> eventBus;
     bool isRunning;
-    int windowWidth{800};
-    int windowHeight{600};
+    int windowWidth{};
+    int windowHeight{};
     int mapWidth{};
     int mapHeight{};
 

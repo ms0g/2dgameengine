@@ -45,6 +45,12 @@ void Game::Initialize() {
         return;
     }
 
+    SDL_DisplayMode displayMode;
+    SDL_GetCurrentDisplayMode(0, &displayMode);
+
+    windowWidth = displayMode.w;
+    windowHeight = displayMode.h;
+
     window = SDL_CreateWindow(
             nullptr,
             SDL_WINDOWPOS_CENTERED,
@@ -69,7 +75,7 @@ void Game::Initialize() {
         Logger::Error("Error creating SDL Renderer");
         return;
     }
-    SDL_SetWindowFullscreen(window, SDL_WINDOW_RESIZABLE);
+    SDL_SetWindowFullscreen(window, SDL_WINDOW_FULLSCREEN);
     isRunning = true;
 #ifdef ENABLE_DEBUG
     // Initialize the ImGui context

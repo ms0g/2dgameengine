@@ -13,6 +13,7 @@
 #include "../Systems/ProjectileLifeCycleSystem.hpp"
 #include "../Systems/RenderTextSystem.hpp"
 #include "../Systems/RenderHealthBarSystem.hpp"
+#include "../Systems/ScriptSystem.hpp"
 
 #ifdef ENABLE_DEBUG
 
@@ -130,13 +131,14 @@ void Game::Setup() {
     registry->AddSystem<ProjectileLifeCycleSystem>();
     registry->AddSystem<RenderTextSystem>();
     registry->AddSystem<RenderHealthBarSystem>();
+    registry->AddSystem<ScriptSystem>();
 
 #ifdef ENABLE_DEBUG
     registry->AddSystem<RenderColliderSystem>();
     registry->AddSystem<RenderGUISystem>();
 #endif
     LevelLoader loader;
-    lua.open_libraries(sol::lib::base);
+    lua.open_libraries(sol::lib::base, sol::lib::os, sol::lib::math);
     loader.LoadLevel(lua, windowWidth, mapWidth, mapHeight, renderer, assetManager, registry);
 }
 

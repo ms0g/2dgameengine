@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.20)
-project(2dengine)
+project(pixjin2d)
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/")
 

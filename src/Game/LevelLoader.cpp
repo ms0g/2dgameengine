@@ -15,6 +15,7 @@
 #include "../Components/HealthComponent.hpp"
 #include "../Components/TextLabelComponent.hpp"
 #include "../Components/ScriptComponent.hpp"
+#include "../Components/SoundComponent.hpp"
 
 
 LevelLoader::LevelLoader() {
@@ -67,6 +68,11 @@ void LevelLoader::LoadLevel(sol::state& lua,
         if (assetType == "font") {
             assetManager->AddFont(assetId, asset["file"], asset["font_size"]);
             Logger::Log("A new font asset was added to the asset store, id: " + assetId);
+        }
+
+        if (assetType == "sound") {
+            assetManager->AddSound(assetId, asset["file"]);
+            Logger::Log("A new sound asset was added to the asset store, id: " + assetId);
         }
     }
 
@@ -170,6 +176,15 @@ void LevelLoader::LoadLevel(sol::state& lua,
                         entity["components"]["sprite"]["fixed"].get_or(false),
                         entity["components"]["sprite"]["src_rect_x"].get_or(0),
                         entity["components"]["sprite"]["src_rect_y"].get_or(0)
+                );
+            }
+
+            // Sound
+            sol::optional<sol::table> sound = entity["components"]["sound"];
+            if (sound != sol::nullopt) {
+                newEntity.AddComponent<SoundComponent>(
+                        entity["components"]["sound"]["asset_id"],
+                        entity["components"]["sound"]["loop"]
                 );
             }
 

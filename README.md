@@ -1,5 +1,6 @@
-# 2DEngine
-Simple 2D game engine that supports lua scripting
+# Pixjin2d
+Simple 2D game engine
+
 ### Prerequisites
 + [CMake](http://www.cmake.org "CMake project page") (>= 3.23)
 + [SDL2](https://www.libsdl.org "Simple DirectMedia Layer") (>= 2.24.1)
@@ -16,7 +17,7 @@ cd build
 
 ### Run
 ```bash
-./2dengine
+./pixjin2d
 ```
 
 ### Credits

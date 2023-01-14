@@ -1,5 +1,6 @@
 #include "Game.h"
 #include <SDL2/SDL.h>
+#include <SDL2/SDL_mixer.h>
 #include "imgui/imgui_impl_sdl.h"
 #include "LevelLoader.h"
 #include "../Systems/MovementSystem.hpp"
@@ -14,6 +15,7 @@
 #include "../Systems/RenderTextSystem.hpp"
 #include "../Systems/RenderHealthBarSystem.hpp"
 #include "../Systems/ScriptSystem.hpp"
+#include "../Systems/SoundSystem.hpp"
 
 #ifdef ENABLE_DEBUG
 
@@ -42,6 +44,12 @@ void Game::Initialize() {
 
     if (TTF_Init() != 0) {
         Logger::Error("Error initializing SDL TTF");
+        return;
+    }
+
+    if (Mix_OpenAudio(22050, MIX_DEFAULT_FORMAT, 2, 4096) == -1) {
+        std::cerr << "SDL2_mixer could not be initialized!\n"
+                     "SDL_Error: \n" << SDL_GetError();
         return;
     }
 
@@ -138,6 +146,7 @@ void Game::Setup() {
     registry->AddSystem<RenderTextSystem>();
     registry->AddSystem<RenderHealthBarSystem>();
     registry->AddSystem<ScriptSystem>();
+    registry->AddSystem<SoundSystem>();
 
 #ifdef ENABLE_DEBUG
     registry->AddSystem<RenderColliderSystem>();
@@ -182,6 +191,7 @@ void Game::Update() {
     registry->GetSystem<ProjectileLifeCycleSystem>().Update();
     registry->GetSystem<CameraMovementSystem>().Update(camera, windowWidth, windowHeight, mapWidth, mapHeight);
     registry->GetSystem<ScriptSystem>().Update(deltaTime, SDL_GetTicks());
+    registry->GetSystem<SoundSystem>().Update(assetManager);
 }
 
 void Game::Render() {
@@ -211,6 +221,7 @@ void Game::Destroy() {
     // Clean up SDL
     SDL_DestroyWindow(window);
     SDL_DestroyRenderer(renderer);
+    Mix_CloseAudio();
     SDL_Quit();
 }
 

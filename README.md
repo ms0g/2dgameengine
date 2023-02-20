@@ -1,4 +1,4 @@
-# Pixjin2d
+# 2dEngine
 Simple 2D game engine
 
 ### Prerequisites

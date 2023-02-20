@@ -17,7 +17,7 @@ cd build
 
 ### Run
 ```bash
-./pixjin2d
+./2dengine
 ```
 
 ### Credits
